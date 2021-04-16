@@ -43,14 +43,14 @@ w=linear_regression(dataX_sig[0:5],dataT[0:5])
 
 #generate the testing dataset of x
 #need to do data preprocessing as same as the given x data
-x=np.linspace(0,2,200)
-x_sig=np.copy(x)
+x_sig=np.linspace(0,2,2000)
 x_sig=normalization(x_sig)
 x_sig=sigmoidal(x_sig)
 x_sig=np.c_[np.array([1]*len(x_sig)),x_sig]
-y=hypothesis(w,x_sig)
+y_sig=hypothesis(w,x_sig)
 
 #visualize
-plt.plot(x,y,color="r")
-plt.plot(dataX[:],dataT[:],'bo')
+x=np.linspace(0,2,2000)
+plt.plot(x,y_sig)
+plt.plot(dataX[0:5],dataT[0:5],'bo')
 plt.show()
