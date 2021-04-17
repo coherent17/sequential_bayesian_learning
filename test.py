@@ -20,37 +20,44 @@ def shuffle(dataX,dataT):
     return dataX,dataT
 
 def sigmoidal(dataX):
-    for i in range(0,len(dataX)):
-        dataX[i]=math.exp(dataX[i])/(1+math.exp(dataX[i]))
-    return dataX
+    dataS=1/(1+np.exp(-1*dataX))
+    return dataS
 
 def linear_regression(X,Y):
-    w=np.matmul(np.matmul(np.linalg.pinv(np.matmul(X.T,X)),X.T),Y)
-    return w
+    beta=1
+    m_0=np.zeros(len(X))
+    S_0_inv=(10**-6)*np.eye(len(X)) #(5*5)
+    S_N_inv=S_0_inv+beta*np.dot(X.T,X)
+    S_N=np.linalg.pinv(S_N_inv)
+    m_N=S_N@(np.dot(S_0_inv,m_0)+beta*np.dot(X.T,Y))
+    return m_N
 
-def hypothesis(w,X):
-    return np.matmul(w,np.transpose(X))
+def hypothesis(m_N,X):
+    return np.matmul(m_N.T,X)
 
 dataX,dataT=shuffle(dataX,dataT)
 
 #N=5
-dataX_sig=np.copy(dataX)
-dataX_sig=normalization(dataX_sig)
-dataX_sig=sigmoidal(dataX_sig)
-dataX_sig=np.c_[np.array([1]*len(dataX_sig)),dataX_sig]
+dataX_train=np.copy(dataX)
+dataX_train=normalization(dataX_train)
+dataX_train=sigmoidal(dataX_train)
+
 #take 5 points to train
-w=linear_regression(dataX_sig[0:5],dataT[0:5])
+m_N=linear_regression(dataX_train[0:5],dataT[0:5])
+print(m_N)
+print(m_N.shape)
 
 #generate the testing dataset of x
 #need to do data preprocessing as same as the given x data
-x_sig=np.linspace(0,2,2000)
-x_sig=normalization(x_sig)
-x_sig=sigmoidal(x_sig)
-x_sig=np.c_[np.array([1]*len(x_sig)),x_sig]
-y_sig=hypothesis(w,x_sig)
+# x=np.random.uniform(low=0,high=2,size=(200,1))
+# x_sig=np.copy(x)
+# x_sig=normalization(x_sig)
+# x_sig=sigmoidal(x_sig)
+# y_sig=hypothesis(m_N,x_sig)
+# print(y_sig)
 
-#visualize
-x=np.linspace(0,2,2000)
-plt.plot(x,y_sig)
-plt.plot(dataX[0:5],dataT[0:5],'bo')
-plt.show()
+# #visualize
+# plt.plot(x,y_sig)
+# plt.plot(dataX[:],dataT[:],'bo')
+# plt.show()
+
