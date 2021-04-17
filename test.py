@@ -29,7 +29,7 @@ def linear_regression(X,Y):
     S_0_inv=(10**-6)*np.eye(len(X)) #(5*5)
     S_N_inv=S_0_inv+beta*np.dot(X.T,X)
     S_N=np.linalg.pinv(S_N_inv)
-    m_N=S_N@(np.dot(S_0_inv,m_0)+beta*np.dot(X.T,Y))
+    m_N=np.dot(S_N,(np.dot(S_0_inv,m_0)+beta*np.dot(X.T,Y)))
     return m_N
 
 def hypothesis(m_N,X):
