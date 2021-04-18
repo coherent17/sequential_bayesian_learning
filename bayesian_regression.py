@@ -26,10 +26,11 @@ def bayesian_regression(X,T):
     m_0=np.zeros((3,1))
     S_N_inv=S_0_inv+beta*(X.T@X)
     S_N=np.linalg.inv(S_N_inv)
+    temp=(S_0_inv@m_0)
     m_N=(S_N@((S_0_inv@m_0)+beta*((X.T@T))))
     return m_N,S_N
 
-N=80
+N=15
 dataX_nor=normalization(dataX[0:N])
 dataX_s=sigmoidal(dataX_nor)
 m_N,S_N=bayesian_regression(dataX_s,dataT[0:N])
