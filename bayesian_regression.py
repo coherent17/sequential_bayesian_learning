@@ -30,7 +30,7 @@ def bayesian_regression(X,T):
     m_N=(S_N@((S_0_inv@m_0)+beta*((X.T@T))))
     return m_N,S_N
 
-N=15
+N=80
 dataX_nor=normalization(dataX[0:N])
 dataX_s=sigmoidal(dataX_nor)
 m_N,S_N=bayesian_regression(dataX_s,dataT[0:N])
@@ -114,7 +114,7 @@ for i in range(10000):
 weight0 = np.array(weight0).reshape(10000,)
 weight1 = np.array(weight1).reshape(10000,)
 weight2 = np.array(weight2).reshape(10000,)
-plt.hist2d(np.array(weight0),np.array(weight1),bins = 50,cmap = 'rainbow')
+plt.hist2d(np.array(weight0),np.array(weight1),range=[[0,5],[-6,6]],bins = 50,cmap = 'rainbow')
 plt.xlabel("w[0]")
 plt.ylabel("w[1]")
 plt.title('weight scatter with training data size: %d' %(N))
